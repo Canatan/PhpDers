@@ -1,0 +1,33 @@
+                                
+                                // Session oluşturmak için öncelikle "session_start();" eklememiz gerekiyor.
+                                // Ardından ise while döngüsünde oluşturduğumuz değişkeni kullanarak "$_SESSION" açıp neleri tutmasını istediğimizi belirtiyoruz
+                                // Sonrasında ise "Beni hatırla tuşunuz varsa" "if(isset($_POST)" şeklinde yanına name kısmını yazarak tıklı mı değil mi kontrol ediyoruz
+                                // Eğer tıklıysa içerisine cookie ekliyoruz 
+                                // Cookie şifre vs tuttuğu için direkt yollamak mallık olacağından cookie'yi md5 ile şifreliyoruz
+                                // neleri şifreleyeciğiniz size kalmış bu kodda "id,yetki" şifrelendi
+                                // cookieyi yazarken "setcookie()" açıp önce adını giriyoruz sonrasında şifreleme varsa o yazılıyor ardından ise "time" ile zaman belirtiyoruz örnekte 60saniye,60dakika,24saat,7gün şeklinde
+                                // ve bunları yaptıktan sonra "header" kullanarak giriş başarılıysa göndereceğimiz sayfayı yazıyoruz.
+                                
+                                
+                                 if($_POST){
+                                            $k_sifre=md5("xt".$password."6u9");
+                                            $sorgu=("select * from kullanicilar where k_adi='$kadi' and k_password='$k_sifre'");
+                                            $sonuc=$baglanti->query($sorgu);
+                                            if(mysqli_num_rows($sonuc)>0){
+                                                while($oku=mysqli_fetch_array($sonuc)){
+                                                    $_SESSION['id']=$oku['k_id'];
+                                                    $_SESSION['yetki']=$oku['k_yetki'];
+                                                }
+                                                    if(isset($_POST['checkRemember'])){
+                                                    setcookie("cerez",md5($_SESSION['id'].$kadi.$_SESSION['yetki']),time()+60*60*24*7);
+                                                    }
+                                                    header("Location:index.php");
+
+                                            }else{
+                                                echo "<script>Swal.fire('Hata!','Kullanıcı adı veya Şifre hatalı','error')</script>";
+                                            }
+                                        }
+                                        
+                                        
+                                        
+                                        
