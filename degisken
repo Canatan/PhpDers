@@ -1,0 +1,3 @@
+mysqli_connection = database bağlantısında kullanılıyor ($baglantı)
+mysqli_query = resultta kullanılıyor " $result=mysqli_query($baglan,$query); ";
+mysqli_fetch_array = rowda kullanılıyor queryinin altında " $row=mysqli_fetch_array($result); "
